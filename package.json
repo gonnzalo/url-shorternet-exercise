@@ -1,29 +1,41 @@
 {
-	"name": "shorturl",
-	"version": "0.0.1",
-	"description": "API project for freeCodeCamp",
-	"main": "server.js",
-	"scripts": {
-		"start": "node server.js"
-	},
-	"dependencies": {
-		"express": "^5.0.0-alpha.2",
-		"mongodb": "^2.2.5",
-		"mongoose": "^4.5.7",
-		"cors": "^2.8.1",
-		"body-parser": "^1.15.2"
-	},
-	"engines": {
-		"node": "4.4.5"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://hyperdev.com/#!/project/welcome-project"
-	},
-	"keywords": [
-		"node",
-		"hyperdev",
-		"express"
-	],
-	"license": "MIT"
+  "name": "shorturl",
+  "version": "0.0.1",
+  "description": "API project for freeCodeCamp",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "dotenv": "^7.0.0",
+    "express": "^5.0.0-alpha.2",
+    "mongodb": "^2.2.5",
+    "mongoose": "^4.5.7"
+  },
+  "engines": {
+    "node": "4.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://hyperdev.com/#!/project/welcome-project"
+  },
+  "keywords": [
+    "node",
+    "hyperdev",
+    "express"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4"
+  }
 }
