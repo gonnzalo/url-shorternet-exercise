@@ -14,9 +14,6 @@
     "mongodb": "^2.2.5",
     "mongoose": "^4.5.7"
   },
-  "engines": {
-    "node": "4.4.5"
-  },
   "repository": {
     "type": "git",
     "url": "https://hyperdev.com/#!/project/welcome-project"

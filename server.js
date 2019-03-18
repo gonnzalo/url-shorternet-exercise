@@ -11,10 +11,7 @@ const app = express();
 
 require("dotenv").config();
 
-// Basic Configuration
 const port = process.env.PORT || 3000;
-
-/** this project needs a db !! * */
 
 mongoose.connect(process.env.MONGO_URI, {
   useMongoClient: true
@@ -30,19 +27,15 @@ db.on("error", console.error.bind(console, "connection error:"));
 
 app.use(cors());
 
-/** this project needs to parse POST bodies * */
-// you should mount the body-parser here
-
 const bodyParser = require("body-parser");
 
-app.use(bodyParser.json()); // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/public", express.static(`${process.cwd()}/public`));
 
 app.get("/", (req, res) => {
   res.sendFile(`${process.cwd()}/views/index.html`);
-  console.log(mongoose.connection.readyState);
 });
 
 // your first API endpoint...
@@ -64,7 +57,7 @@ const urlSchema = new Schema({
 
 const UrlList = mongoose.model("UrlList", urlSchema);
 
-app.post("/api/shorturl/new", (req, res, next) => {
+app.post("/api/shorturl/new", (req, res) => {
   const protocol = /^https?:\/\//i;
 
   if (!protocol.test(req.body.url)) return res.json({ error: "invalid URL" });
@@ -73,23 +66,30 @@ app.post("/api/shorturl/new", (req, res, next) => {
 
   const list = new UrlList({
     original_url: myUrl.host,
-    short_url: 4
+    short_url: 5
   });
 
-  list
-    .save()
-    .then(data => {
-      res.json(data);
-    })
-    .catch(err => {
-      res.json(err);
-    });
+  return dns.lookup(myUrl.host, err => {
+    if (err) res.send("please provide a valid URL");
+    list
+      .save()
+      .then(data => {
+        res.json({
+          original_url: data.original_url,
+          short_url: data.short_url
+        });
+      })
+      .catch(error => {
+        res.json(error);
+      });
+  });
 });
 
-// app.get("/api/shorturl/:id(\\d+)/", (req, res) => {
-//   console.log(req.params);
-//   res.send(req.params.id);
-// });
+app.get("/api/shorturl/:id(\\d+)/", (req, res) => {
+  UrlList.find({ short_url: req.params.id }, (err, data) => {
+    res.redirect(`http://${data[0].original_url}`);
+  });
+});
 
 app.listen(port, () => {
   console.log("Node.js listening ...");
