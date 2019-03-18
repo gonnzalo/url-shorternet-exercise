@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
-db.once("open", function() {
+db.once("open", () => {
   console.log("connected");
 });
 db.on("error", console.error.bind(console, "connection error:"));
@@ -59,28 +59,34 @@ const UrlList = mongoose.model("UrlList", urlSchema);
 
 app.post("/api/shorturl/new", (req, res) => {
   const protocol = /^https?:\/\//i;
+  let counter = 0;
 
   if (!protocol.test(req.body.url)) return res.json({ error: "invalid URL" });
 
   const myUrl = new URL(req.body.url);
 
-  const list = new UrlList({
-    original_url: myUrl.host,
-    short_url: 5
-  });
-
   return dns.lookup(myUrl.host, err => {
     if (err) res.send("please provide a valid URL");
-    list
-      .save()
-      .then(data => {
-        res.json({
-          original_url: data.original_url,
-          short_url: data.short_url
-        });
+    UrlList.count({})
+      .then(count => {
+        counter = count;
       })
-      .catch(error => {
-        res.json(error);
+      .then(() => {
+        const list = new UrlList({
+          original_url: myUrl.host,
+          short_url: counter + 1
+        });
+        list
+          .save()
+          .then(data => {
+            res.json({
+              original_url: data.original_url,
+              short_url: data.short_url
+            });
+          })
+          .catch(error => {
+            res.json(error);
+          });
       });
   });
 });
