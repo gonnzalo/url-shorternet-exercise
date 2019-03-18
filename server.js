@@ -13,9 +13,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGO_URI, {
-  useMongoClient: true
-});
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 mongoose.Promise = global.Promise;
 
@@ -50,7 +48,7 @@ const urlSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    default: "https://www.freecodecamp.com"
+    default: "https://www.google.com"
   },
   short_url: { type: Number, required: true, unique: true, default: 0 }
 });
@@ -67,7 +65,7 @@ app.post("/api/shorturl/new", (req, res) => {
 
   return dns.lookup(myUrl.host, err => {
     if (err) res.send("please provide a valid URL");
-    UrlList.count({})
+    UrlList.countDocuments({})
       .then(count => {
         counter = count;
       })
