@@ -1,5 +1,11 @@
 # API Project: URL Shortener Microservice for freeCodeCamp
 
+### Live: 
+
+https://url-shortener-micro.glitch.me/
+
+------
+
 
 ### User Stories
 
@@ -10,11 +16,11 @@
 
 #### Creation Example:
 
-POST [project_url]/api/shorturl/new - body (urlencoded) :  url=https://www.google.com
+POST https://url-shortener-micro.glitch.me/api/shorturl/new - body (urlencoded) :  url=https://www.google.com
 
 #### Usage:
 
-[this_project_url]/api/shorturl/3
+https://url-shortener-micro.glitch.me/api/shorturl/3
 
 #### Will redirect to:
 
